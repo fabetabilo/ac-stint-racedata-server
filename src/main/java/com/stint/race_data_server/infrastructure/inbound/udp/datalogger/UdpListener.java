@@ -3,18 +3,22 @@ package com.stint.race_data_server.infrastructure.inbound.udp.datalogger;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
+import com.stint.race_data_server.application.port.in.ReceiveTelemetry;
 import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
 
-/**
- * Escucha, recibe paquetes UDP raw en bytes[] en un puerto especifico, y los procesa como samples de telemetria {@link TelemetrySample}
+/** Adaptador,
+ * escucha, recibe paquetes UDP raw en bytes[] en un puerto especifico, y los procesa como samples de telemetria {@link TelemetrySample}
+ * transformandolos al lenguaje de dominio.
  */
 public class UdpListener implements Runnable{
 
     private final int port;
+    private final ReceiveTelemetry receiveTelemetry;
     private final PacketDecoder decoder;
 
-    public UdpListener(int port, PacketDecoder decoder) {
+    public UdpListener(int port, ReceiveTelemetry receiveTelemetry, PacketDecoder decoder) {
         this.port = port;
+        this.receiveTelemetry = receiveTelemetry;
         this.decoder = decoder;
     }
 
@@ -36,6 +40,7 @@ public class UdpListener implements Runnable{
                     TelemetrySample sample = decoder.decode(packet.getData(), packet.getLength());
 
                     if (sample != null) {
+                        receiveTelemetry.handle(sample);
                         System.out.println("monka");   
                     }
                 } catch (Exception e) {
