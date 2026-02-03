@@ -3,7 +3,7 @@ package com.stint.race_data_server.domain.telemetry.frame;
 import java.time.Instant;
 
 import com.stint.race_data_server.domain.telemetry.data.Aerodynamic;
-import com.stint.race_data_server.domain.telemetry.data.GpsRadar;
+import com.stint.race_data_server.domain.telemetry.data.Gps;
 import com.stint.race_data_server.domain.telemetry.data.Imu;
 import com.stint.race_data_server.domain.telemetry.data.Info;
 import com.stint.race_data_server.domain.telemetry.data.Input;
@@ -27,7 +27,7 @@ public class Telemetry {
     private LiveTiming timing;
     private Tyre tyre;
     private Aerodynamic aero;
-    private GpsRadar gpsradar;
+    private Gps gps;
 
     public Telemetry(int driverIdx, Instant timestamp) {
         this.driverIdx = driverIdx;
@@ -71,9 +71,42 @@ public class Telemetry {
         this.aero = aero;
     }
 
-    void setGpsRadar(GpsRadar gpsradar) {
-        this.gpsradar = gpsradar;
+    void setGpsRadar(Gps gps) {
+        this.gps = gps;
     }
 
+
+    // getters, null-safe mas adelante
+    public Info getInfo() {
+        return info;
+    }
+
+    public Input getInput() {
+        return input;
+    }
+
+    public Imu getImu() {
+        return imu;
+    }
+
+    public Suspension getSusp() {
+        return susp;
+    }
+
+    public LiveTiming getTiming() {
+        return timing;
+    }
+
+    public Tyre getTyre() {
+        return tyre;
+    }
+
+    public Aerodynamic getAero() {
+        return aero;
+    }
+
+    public Gps getGps() {
+        return gps;
+    }
 
 }

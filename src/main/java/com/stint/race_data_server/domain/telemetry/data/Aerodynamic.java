@@ -34,4 +34,32 @@ public class Aerodynamic {
             s.getRideHeightRear()
         );
     }
+
+    public float getDownforce() {
+        return downforce;
+    }
+
+    public float getDrag() {
+        return drag;
+    }
+
+    public float getClFront() {
+        return clFront;
+    }
+
+    public float getClRear() {
+        return clRear;
+    }
+
+    public float getCd() {
+        return cd;
+    }
+
+    public float getRideHeightFront() {
+        return rideHeightFront;
+    }
+
+    public float getRideHeightRear() {
+        return rideHeightRear;
+    }
 }

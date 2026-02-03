@@ -12,15 +12,19 @@ public class ImuSample extends TelemetrySample {
     private final float accZ;
     private final float roll;
     private final float pitch;
+    private final float yawRate;
+    private final float sideSlip;
 
     public ImuSample(int driverIdx, Instant timestamp, float accX, float accY, float accZ, 
-            float roll, float pitch) {
+            float roll, float pitch, float yawRate, float sideSlip) {
         super(driverIdx, timestamp);
         this.accX = accX;
         this.accY = accY;
         this.accZ = accZ;
         this.roll = roll;
         this.pitch = pitch;
+        this.yawRate = yawRate;
+        this.sideSlip = sideSlip;
     }
     // getters
     public float getAccX() {
@@ -41,6 +45,14 @@ public class ImuSample extends TelemetrySample {
 
     public float getPitch() {
         return pitch;
+    }
+
+    public float getYawRate() {
+        return yawRate;
+    }
+
+    public float getSideSlip() {
+        return sideSlip;
     }
 }
 

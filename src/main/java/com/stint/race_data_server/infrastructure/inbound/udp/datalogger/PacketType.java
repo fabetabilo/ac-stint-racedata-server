@@ -11,7 +11,7 @@ public enum PacketType {
     IMU(3),
     SUSP(4),
     LIVE_TIMING(5),
-    GPS_RADAR(6),
+    GPS(6),
     TYRE(7),
     AERO(8);
 

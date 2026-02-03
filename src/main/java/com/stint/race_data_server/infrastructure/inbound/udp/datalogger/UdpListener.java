@@ -13,23 +13,26 @@ import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
 public class UdpListener implements Runnable{
 
     private final int port;
+    private final int bufferSize;
     private final ReceiveTelemetry receiveTelemetry;
     private final PacketDecoder decoder;
 
-    public UdpListener(int port, ReceiveTelemetry receiveTelemetry, PacketDecoder decoder) {
+    public UdpListener(int port, int bufferSize, ReceiveTelemetry receiveTelemetry, PacketDecoder decoder) {
         this.port = port;
+        this.bufferSize = bufferSize;
         this.receiveTelemetry = receiveTelemetry;
         this.decoder = decoder;
     }
 
     /**
-     * Abre datagram socket con el puerto
+     * Abre datagram socket con el puerto, implementando metodo de interface {@link Runnable}
      */
+    @Override
     public void run() {
         // cierra automaticamente al salir del try-with-resources
         try (DatagramSocket socket = new DatagramSocket(port)){
 
-            byte[] buffer = new byte[2048]; // !temporal: revisar mas adelante puede cambiar
+            byte[] buffer = new byte[bufferSize];
 
             // !temporal: while true de momento, la unica forma de terminar es interrumpir la ejecucion
             while (true) {
@@ -41,7 +44,6 @@ public class UdpListener implements Runnable{
 
                     if (sample != null) {
                         receiveTelemetry.handle(sample);
-                        System.out.println("monka");   
                     }
                 } catch (Exception e) {
                     System.err.println("Error decoding packet: " + e.getMessage());

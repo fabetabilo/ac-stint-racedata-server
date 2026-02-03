@@ -24,4 +24,20 @@ public class Suspension {
             sample.getWheelAngularSpeed()
         );
     }
+
+    public float[] getSuspensionTravel() {
+        return suspensionTravel;
+    }
+
+    public float[] getCamberRAD() {
+        return camberRAD;
+    }
+
+    public float[] getWheelLoad() {
+        return wheelLoad;
+    }
+
+    public float[] getWheelAngularSpeed() {
+        return wheelAngularSpeed;
+    }
 }

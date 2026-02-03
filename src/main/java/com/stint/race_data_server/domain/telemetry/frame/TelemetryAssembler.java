@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Component;
 
 import com.stint.race_data_server.domain.telemetry.data.Aerodynamic;
-import com.stint.race_data_server.domain.telemetry.data.GpsRadar;
+import com.stint.race_data_server.domain.telemetry.data.Gps;
 import com.stint.race_data_server.domain.telemetry.data.Imu;
 import com.stint.race_data_server.domain.telemetry.data.Info;
 import com.stint.race_data_server.domain.telemetry.data.Input;
@@ -14,7 +14,7 @@ import com.stint.race_data_server.domain.telemetry.data.LiveTiming;
 import com.stint.race_data_server.domain.telemetry.data.Suspension;
 import com.stint.race_data_server.domain.telemetry.data.Tyre;
 import com.stint.race_data_server.domain.telemetry.sample.AerodynamicSample;
-import com.stint.race_data_server.domain.telemetry.sample.GpsRadarSample;
+import com.stint.race_data_server.domain.telemetry.sample.GpsSample;
 import com.stint.race_data_server.domain.telemetry.sample.ImuSample;
 import com.stint.race_data_server.domain.telemetry.sample.InfoSample;
 import com.stint.race_data_server.domain.telemetry.sample.InputSample;
@@ -59,8 +59,8 @@ public class TelemetryAssembler {
         else if (sample instanceof AerodynamicSample s) {
             frame.setAero(Aerodynamic.from(s));
         }
-        else if (sample instanceof GpsRadarSample s) {
-            frame.setGpsRadar(GpsRadar.from(s));
+        else if (sample instanceof GpsSample s) {
+            frame.setGpsRadar(Gps.from(s));
         }
 
         return frame;

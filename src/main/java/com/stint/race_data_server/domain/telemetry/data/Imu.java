@@ -9,13 +9,17 @@ public class Imu {
     private final float accZ;
     private final float roll;
     private final float pitch;
+    private final float yawRate;
+    private final float sideSlip;
 
-    public Imu(float accX, float accY, float accZ, float roll, float pitch) {
+    public Imu(float accX, float accY, float accZ, float roll, float pitch, float yawRate, float sideSlip) {
         this.accX = accX;
         this.accY = accY;
         this.accZ = accZ;
         this.roll = roll;
         this.pitch = pitch;
+        this.yawRate = yawRate;
+        this.sideSlip = sideSlip;
     }
 
     public static Imu from(ImuSample sample) {
@@ -24,7 +28,37 @@ public class Imu {
             sample.getAccY(),
             sample.getAccZ(),
             sample.getRoll(),
-            sample.getPitch()
+            sample.getPitch(),
+            sample.getYawRate(),
+            sample.getSideSlip()
         );
+    }
+
+    public float getAccX() {
+        return accX;
+    }
+
+    public float getAccY() {
+        return accY;
+    }
+
+    public float getAccZ() {
+        return accZ;
+    }
+
+    public float getRoll() {
+        return roll;
+    }
+
+    public float getPitch() {
+        return pitch;
+    }
+
+    public float getYawRate() {
+        return yawRate;
+    }
+
+    public float getSideSlip() {
+        return sideSlip;
     }
 }

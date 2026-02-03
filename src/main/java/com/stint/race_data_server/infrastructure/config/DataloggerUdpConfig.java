@@ -10,7 +10,7 @@ import com.stint.race_data_server.infrastructure.inbound.udp.datalogger.PacketTy
 import com.stint.race_data_server.infrastructure.inbound.udp.datalogger.PayloadDecoder;
 import com.stint.race_data_server.infrastructure.inbound.udp.datalogger.UdpListener;
 import com.stint.race_data_server.infrastructure.inbound.udp.datalogger.decoder.AerodynamicDecoder;
-import com.stint.race_data_server.infrastructure.inbound.udp.datalogger.decoder.GpsRadarDecoder;
+import com.stint.race_data_server.infrastructure.inbound.udp.datalogger.decoder.GpsDecoder;
 import com.stint.race_data_server.infrastructure.inbound.udp.datalogger.decoder.ImuDecoder;
 import com.stint.race_data_server.infrastructure.inbound.udp.datalogger.decoder.InfoDecoder;
 import com.stint.race_data_server.infrastructure.inbound.udp.datalogger.decoder.InputDecoder;
@@ -24,11 +24,11 @@ import com.stint.race_data_server.infrastructure.inbound.udp.datalogger.decoder.
  */
 public class DataloggerUdpConfig {
     
-    public static UdpListener dataloggerListener(int port, ReceiveTelemetry receiveTelemetry) {
+    public static UdpListener dataloggerListener(int port, int bufferSize, ReceiveTelemetry receiveTelemetry) {
 
         PacketDecoder packetDecoder = packetDecoder();
 
-        return new UdpListener(port, receiveTelemetry, packetDecoder);
+        return new UdpListener(port, bufferSize, receiveTelemetry, packetDecoder);
 
     }
 
@@ -42,7 +42,7 @@ public class DataloggerUdpConfig {
         decoders.put(PacketType.IMU, new ImuDecoder());
         decoders.put(PacketType.SUSP, new SuspensionDecoder());
         decoders.put(PacketType.LIVE_TIMING, new LiveTimingDecoder());
-        decoders.put(PacketType.GPS_RADAR, new GpsRadarDecoder());
+        decoders.put(PacketType.GPS, new GpsDecoder());
         decoders.put(PacketType.TYRE, new TyreDecoder());
         decoders.put(PacketType.AERO, new AerodynamicDecoder());
 

@@ -46,4 +46,48 @@ public class Input {
             s.getKersInput()
         );
     }
+
+    public long getRpm() {
+        return rpm;
+    }
+
+    public float getTurbo() {
+        return turbo;
+    }
+
+    public float getSpeedKmh() {
+        return speedKmh;
+    }
+
+    public int getGear() {
+        return gear;
+    }
+
+    public float getThrottle() {
+        return throttle;
+    }
+
+    public float getBrake() {
+        return brake;
+    }
+
+    public float getClutch() {
+        return clutch;
+    }
+
+    public float getSteer() {
+        return steer;
+    }
+
+    public float getFuel() {
+        return fuel;
+    }
+
+    public float getKersCharge() {
+        return kersCharge;
+    }
+
+    public float getKersInput() {
+        return kersInput;
+    }
 }

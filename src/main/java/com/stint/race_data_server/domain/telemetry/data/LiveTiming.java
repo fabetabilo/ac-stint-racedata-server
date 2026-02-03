@@ -43,4 +43,44 @@ public class LiveTiming {
             s.getFlag()
         );
     }
+
+    public int getLapCount() {
+        return lapCount;
+    }
+
+    public int getSectorIdx() {
+        return sectorIdx;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public int getCurrentLapMs() {
+        return currentLapMs;
+    }
+
+    public float getDelta() {
+        return delta;
+    }
+
+    public int getSectorTimeMs() {
+        return sectorTimeMs;
+    }
+
+    public int getLastLapMs() {
+        return lastLapMs;
+    }
+
+    public int getBestLapMs() {
+        return bestLapMs;
+    }
+
+    public boolean isInPitLane() {
+        return inPitLane;
+    }
+
+    public int getFlag() {
+        return flag;
+    }
 }

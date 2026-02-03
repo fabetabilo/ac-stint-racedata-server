@@ -31,4 +31,28 @@ public class Tyre {
             s.getSlipRatios()
         );
     }
+    
+    public float[] getCoreTemps() {
+        return coreTemps;
+    }
+
+    public String getCompound() {
+        return compound;
+    }
+
+    public float[] getPressures() {
+        return pressures;
+    }
+
+    public float[] getDirtLevels() {
+        return dirtLevels;
+    }
+
+    public float[] getWearLevels() {
+        return wearLevels;
+    }
+
+    public float[] getSlipRatios() {
+        return slipRatios;
+    }
 }

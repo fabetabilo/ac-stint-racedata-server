@@ -37,4 +37,36 @@ public class Info {
             s.isAbsOn()
         );
     }
+
+    public String getCarNumber() {
+        return carNumber;
+    }
+
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public String getTeamId() {
+        return teamId;
+    }
+
+    public boolean isInPit() {
+        return inPit;
+    }
+
+    public float getDist() {
+        return dist;
+    }
+
+    public float[] getCarDamage() {
+        return carDamage;
+    }
+
+    public boolean isTcOn() {
+        return tcOn;
+    }
+
+    public boolean isAbsOn() {
+        return absOn;
+    }
 }
