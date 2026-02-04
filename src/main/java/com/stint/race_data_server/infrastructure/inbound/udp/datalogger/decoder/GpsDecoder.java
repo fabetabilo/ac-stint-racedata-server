@@ -18,7 +18,7 @@ public class GpsDecoder implements PayloadDecoder {
         float z = buffer.getFloat();
         
         return new GpsSample(
-            header.getDriverIdx(),
+            header.getDeviceId(),
             Instant.now(),
             heading,
             x,

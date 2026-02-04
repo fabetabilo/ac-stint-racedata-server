@@ -15,9 +15,9 @@ public class AerodynamicSample extends TelemetrySample {
     private final float rideHeightFront;
     private final float rideHeightRear;
 
-    public AerodynamicSample(int driverIdx, Instant ts, float drag, float downforce,
+    public AerodynamicSample(int deviceId, Instant ts, float drag, float downforce,
             float clFront, float clRear, float cd, float rideHeightFront, float rideHeightRear) {
-        super(driverIdx, ts);
+        super(deviceId, ts);
         this.drag = drag;
         this.downforce = downforce;
         this.clFront = clFront;

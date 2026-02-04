@@ -25,7 +25,7 @@ public class LiveTimingDecoder implements PayloadDecoder{
         int flag = buffer.get() & 0xFF;
         
         return new LiveTimingSample(
-            header.getDriverIdx(),
+            header.getDeviceId(),
             Instant.now(),
             position,
             currentLapMs,

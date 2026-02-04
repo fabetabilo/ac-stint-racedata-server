@@ -28,15 +28,15 @@ public class TelemetryAssembler {
 
     private final ConcurrentHashMap<Integer, Telemetry> frames = new ConcurrentHashMap<>();
 
-    public Telemetry getOrCreate(int driverIdx) {
+    public Telemetry getOrCreate(int deviceId) {
         return frames.computeIfAbsent(
-            driverIdx,
+            deviceId,
             k -> new Telemetry(k, Instant.now()) // lambda truco c:
         ); 
     }
     public Telemetry apply(TelemetrySample sample) {
 
-        Telemetry frame = getOrCreate(sample.getDriverIdx());
+        Telemetry frame = getOrCreate(sample.getDeviceId());
 
         if (sample instanceof InfoSample s) {
             frame.setInfo(Info.from(s));

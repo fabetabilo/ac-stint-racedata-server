@@ -40,7 +40,7 @@ public class InfoDecoder implements PayloadDecoder {
         boolean absOn = buffer.get() != 0;
 
         return new InfoSample(
-            header.getDriverIdx(),
+            header.getDeviceId(),
             Instant.now(),
             carNumber,
             driverName,

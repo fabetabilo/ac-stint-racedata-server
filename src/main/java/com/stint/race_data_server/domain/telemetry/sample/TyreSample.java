@@ -15,9 +15,9 @@ public class TyreSample extends TelemetrySample {
     private final float[] wearLevels;
     private final float[] slipRatios;
 
-    public TyreSample(int driverIdx, Instant ts, String compound, float[] coreTemps,
+    public TyreSample(int deviceId, Instant ts, String compound, float[] coreTemps,
             float[] pressures, float[] dirtLevels, float[] wearLevels, float[] slipRatios) {
-        super(driverIdx, ts);
+        super(deviceId, ts);
         this.compound = compound;
         this.coreTemps = coreTemps;
         this.pressures = pressures;

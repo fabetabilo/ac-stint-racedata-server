@@ -46,7 +46,7 @@ public class TyreDecoder implements PayloadDecoder {
         }
 
         return new TyreSample(
-            header.getDriverIdx(),
+            header.getDeviceId(),
             Instant.now(),
             compound,
             coreTemps,

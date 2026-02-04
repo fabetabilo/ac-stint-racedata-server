@@ -23,7 +23,7 @@ public class ImuDecoder implements PayloadDecoder{
         float sideSlip = buffer.getFloat();
 
         return new ImuSample(
-            header.getDriverIdx(),
+            header.getDeviceId(),
             Instant.now(),
             accX,
             accY,

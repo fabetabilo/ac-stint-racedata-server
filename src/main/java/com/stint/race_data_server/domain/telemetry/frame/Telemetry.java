@@ -17,7 +17,7 @@ import com.stint.race_data_server.domain.telemetry.data.Tyre;
  */
 public class Telemetry {
     
-    private final int driverIdx;
+    private final int deviceId;
     private final Instant timestamp;
 
     private Info info;
@@ -29,13 +29,13 @@ public class Telemetry {
     private Aerodynamic aero;
     private Gps gps;
 
-    public Telemetry(int driverIdx, Instant timestamp) {
-        this.driverIdx = driverIdx;
+    public Telemetry(int deviceId, Instant timestamp) {
+        this.deviceId = deviceId;
         this.timestamp = timestamp;
     }
     
-    public int getDriverIdx() {
-        return driverIdx;
+    public int getDeviceId() {
+        return deviceId;
     }
 
     public Instant getTimestamp() {

@@ -15,9 +15,9 @@ public class ImuSample extends TelemetrySample {
     private final float yawRate;
     private final float sideSlip;
 
-    public ImuSample(int driverIdx, Instant timestamp, float accX, float accY, float accZ, 
+    public ImuSample(int deviceId, Instant timestamp, float accX, float accY, float accZ, 
             float roll, float pitch, float yawRate, float sideSlip) {
-        super(driverIdx, timestamp);
+        super(deviceId, timestamp);
         this.accX = accX;
         this.accY = accY;
         this.accZ = accZ;

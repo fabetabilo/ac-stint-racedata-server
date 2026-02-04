@@ -36,7 +36,7 @@ public class SuspensionDecoder implements PayloadDecoder {
         }
         
         return new SuspensionSample(
-            header.getDriverIdx(),
+            header.getDeviceId(),
             Instant.now(),
             suspensionTravel,
             camberRAD,

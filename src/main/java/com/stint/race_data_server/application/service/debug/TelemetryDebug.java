@@ -74,7 +74,7 @@ public class TelemetryDebug {
         if (!enabled || frame == null)
             return;
 
-        int driverIdx = frame.getDriverIdx();
+        int driverIdx = frame.getDeviceId(); // Device ID alude al coche al que se esta evaluando telemetria
         Instant now = Instant.now();
 
         Instant last = lastPrint.get(driverIdx);
@@ -90,7 +90,7 @@ public class TelemetryDebug {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("[DL] ID ").append(frame.getDriverIdx());
+        sb.append("[DL] DEVICE ID=").append(frame.getDeviceId());
 
         if (frame.getInfo() != null)
             appendInfo(sb, frame.getInfo());

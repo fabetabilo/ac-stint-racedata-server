@@ -22,7 +22,7 @@ public class AerodynamicDecoder implements PayloadDecoder {
         float rideHeightRear = buffer.getFloat();
         
         return new AerodynamicSample (
-            header.getDriverIdx(),
+            header.getDeviceId(),
             Instant.now(),
             drag,
             downforce,

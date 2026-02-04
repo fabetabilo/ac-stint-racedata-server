@@ -8,16 +8,16 @@ import java.time.Instant;
  */
 public abstract class TelemetrySample {
 
-    private final int driverIdx;
+    private final int deviceId;
     private final Instant timestamp;
 
-    protected TelemetrySample(int driverIdx, Instant timestamp) {
-        this.driverIdx = driverIdx;
+    protected TelemetrySample(int deviceId, Instant timestamp) {
+        this.deviceId = deviceId;
         this.timestamp = timestamp;
     }
 
-    public int getDriverIdx() {
-        return driverIdx;
+    public int getDeviceId() {
+        return deviceId;
     }
 
     public Instant getTimestamp() {

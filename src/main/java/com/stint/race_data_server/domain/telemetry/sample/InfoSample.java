@@ -16,9 +16,9 @@ public class InfoSample extends TelemetrySample {
     private final boolean tcOn;
     private final boolean absOn;
 
-    public InfoSample(int driverIdx, Instant timestamp, String carNumber, String driverName, 
+    public InfoSample(int deviceId, Instant timestamp, String carNumber, String driverName, 
             String teamId, boolean inPit, float dist, float[] carDamage, boolean tcOn, boolean absOn) {
-        super(driverIdx, timestamp);
+        super(deviceId, timestamp);
         this.carNumber = carNumber;
         this.driverName = driverName;
         this.teamId = teamId;

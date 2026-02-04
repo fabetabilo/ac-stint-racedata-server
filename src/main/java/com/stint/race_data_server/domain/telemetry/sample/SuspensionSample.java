@@ -12,9 +12,9 @@ public class SuspensionSample extends TelemetrySample {
     private final float[] wheelLoad;
     private final float[] wheelAngularSpeed;
 
-    public SuspensionSample(int driverIdx, Instant ts, float[] suspensionTravel, float[] camberRAD, 
+    public SuspensionSample(int deviceId, Instant ts, float[] suspensionTravel, float[] camberRAD, 
             float[] wheelLoad, float[] wheelAngularSpeed) {
-        super(driverIdx, ts);
+        super(deviceId, ts);
         this.suspensionTravel = suspensionTravel;
         this.camberRAD = camberRAD;
         this.wheelLoad = wheelLoad;

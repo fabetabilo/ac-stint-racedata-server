@@ -27,7 +27,7 @@ public class InputDecoder implements PayloadDecoder{
             float kersInput = buffer.getFloat();
             
             return new InputSample(
-                header.getDriverIdx(),
+                header.getDeviceId(),
                 Instant.now(),
                 rpm,
                 turbo,

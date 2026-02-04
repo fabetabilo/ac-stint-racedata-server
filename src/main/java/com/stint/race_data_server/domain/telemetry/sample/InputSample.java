@@ -19,9 +19,9 @@ public class InputSample extends TelemetrySample {
     private final float kersCharge;
     private final float kersInput;
 
-    public InputSample(int driverIdx, Instant timestamp, long rpm, float turbo, float speedKmh, int gear,
+    public InputSample(int deviceId, Instant timestamp, long rpm, float turbo, float speedKmh, int gear,
             float throttle, float brake, float clutch, float steer, float fuel, float kersCharge, float kersInput) {
-        super(driverIdx, timestamp);
+        super(deviceId, timestamp);
         this.rpm = rpm;
         this.turbo = turbo;
         this.speedKmh = speedKmh;

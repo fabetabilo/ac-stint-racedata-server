@@ -18,9 +18,9 @@ public class LiveTimingSample extends TelemetrySample {
     private final boolean inPitLane;
     private final int flag;
 
-    public LiveTimingSample(int driverIdx, Instant ts, int position, int currentLapMs, float delta, int sectorIdx,
+    public LiveTimingSample(int deviceId, Instant ts, int position, int currentLapMs, float delta, int sectorIdx,
             int sectorTimeMs, int lastLapMs, int bestLapMs, int lapCount, boolean inPitLane, int flag) {
-        super(driverIdx, ts);
+        super(deviceId, ts);
         this.position = position;
         this.currentLapMs = currentLapMs;
         this.delta = delta;

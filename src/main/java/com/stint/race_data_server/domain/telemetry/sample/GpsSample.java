@@ -11,8 +11,8 @@ public class GpsSample extends TelemetrySample {
     private final float x;
     private final float z;
 
-    public GpsSample(int driverIdx, Instant ts, float heading, float x, float z) {
-        super(driverIdx, ts);
+    public GpsSample(int deviceId, Instant ts, float heading, float x, float z) {
+        super(deviceId, ts);
         this.heading = heading;
         this.x = x;
         this.z = z;
