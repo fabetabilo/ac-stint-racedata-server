@@ -18,7 +18,7 @@ import com.stint.race_data_server.domain.telemetry.data.Tyre;
 public class Telemetry {
     
     private final int deviceId;
-    private final Instant timestamp;
+    private Instant timestamp; // mutable: se actualiza con cada sample recibido
 
     private Info info;
     private Input input;
@@ -40,6 +40,10 @@ public class Telemetry {
 
     public Instant getTimestamp() {
         return timestamp;
+    }
+
+    void setTimestamp(Instant timestamp) {
+        this.timestamp = timestamp;
     }
     
     // setters controlados (package-private o explicitos)

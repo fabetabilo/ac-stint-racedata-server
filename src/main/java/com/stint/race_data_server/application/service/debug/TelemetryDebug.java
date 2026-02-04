@@ -74,15 +74,19 @@ public class TelemetryDebug {
         if (!enabled || frame == null)
             return;
 
-        int driverIdx = frame.getDeviceId(); // Device ID alude al coche al que se esta evaluando telemetria
-        Instant now = Instant.now();
+        int deviceId = frame.getDeviceId(); // Device ID alude al coche al que se esta evaluando telemetria
+        Instant frameTimestamp = frame.getTimestamp(); // timestamp de captura desde data logger
 
-        Instant last = lastPrint.get(driverIdx);
-        if (last != null && now.toEpochMilli() - last.toEpochMilli() < minIntervalMs) {
+        Instant last = lastPrint.get(deviceId);
+        if (last != null && frameTimestamp.toEpochMilli() - last.toEpochMilli() < minIntervalMs) {
+            log.debug("Filtered frame for device {} - timestamp: {}, last: {}, diff: {}ms", 
+                deviceId, frameTimestamp.toEpochMilli(), last.toEpochMilli(), 
+                frameTimestamp.toEpochMilli() - last.toEpochMilli());
             return;
         }
 
-        lastPrint.put(driverIdx, now);
+        lastPrint.put(deviceId, frameTimestamp);
+        log.debug("Logging frame for device {} - timestamp: {}", deviceId, frameTimestamp.toEpochMilli());
         logFrame(frame);
     }
 
@@ -90,7 +94,8 @@ public class TelemetryDebug {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("[DL] DEVICE ID=").append(frame.getDeviceId());
+        sb.append("[DL] DEVICE ID=").append(frame.getDeviceId())
+          .append(" TS=").append(frame.getTimestamp().toEpochMilli());
 
         if (frame.getInfo() != null)
             appendInfo(sb, frame.getInfo());

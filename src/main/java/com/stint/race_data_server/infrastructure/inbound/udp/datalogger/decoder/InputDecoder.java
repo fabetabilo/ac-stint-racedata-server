@@ -1,7 +1,6 @@
 package com.stint.race_data_server.infrastructure.inbound.udp.datalogger.decoder;
 
 import java.nio.ByteBuffer;
-import java.time.Instant;
 
 import com.stint.race_data_server.domain.telemetry.sample.InputSample;
 import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
@@ -28,7 +27,7 @@ public class InputDecoder implements PayloadDecoder{
             
             return new InputSample(
                 header.getDeviceId(),
-                Instant.now(),
+                header.getTimestampAsInstant(),
                 rpm,
                 turbo,
                 speedKmh,

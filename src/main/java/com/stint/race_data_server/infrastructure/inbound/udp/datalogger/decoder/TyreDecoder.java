@@ -2,7 +2,6 @@ package com.stint.race_data_server.infrastructure.inbound.udp.datalogger.decoder
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.time.Instant;
 
 import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
 import com.stint.race_data_server.domain.telemetry.sample.TyreSample;
@@ -47,7 +46,7 @@ public class TyreDecoder implements PayloadDecoder {
 
         return new TyreSample(
             header.getDeviceId(),
-            Instant.now(),
+            header.getTimestampAsInstant(),
             compound,
             coreTemps,
             pressures,

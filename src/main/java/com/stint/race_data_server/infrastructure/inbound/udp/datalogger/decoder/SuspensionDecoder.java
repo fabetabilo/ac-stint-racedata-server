@@ -1,7 +1,6 @@
 package com.stint.race_data_server.infrastructure.inbound.udp.datalogger.decoder;
 
 import java.nio.ByteBuffer;
-import java.time.Instant;
 
 import com.stint.race_data_server.domain.telemetry.sample.SuspensionSample;
 import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
@@ -37,7 +36,7 @@ public class SuspensionDecoder implements PayloadDecoder {
         
         return new SuspensionSample(
             header.getDeviceId(),
-            Instant.now(),
+            header.getTimestampAsInstant(),
             suspensionTravel,
             camberRAD,
             wheelLoad,

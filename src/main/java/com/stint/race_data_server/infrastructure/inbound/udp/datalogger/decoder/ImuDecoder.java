@@ -1,7 +1,6 @@
 package com.stint.race_data_server.infrastructure.inbound.udp.datalogger.decoder;
 
 import java.nio.ByteBuffer;
-import java.time.Instant;
 
 import com.stint.race_data_server.domain.telemetry.sample.ImuSample;
 import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
@@ -24,7 +23,7 @@ public class ImuDecoder implements PayloadDecoder{
 
         return new ImuSample(
             header.getDeviceId(),
-            Instant.now(),
+            header.getTimestampAsInstant(),
             accX,
             accY,
             accZ,

@@ -1,7 +1,6 @@
 package com.stint.race_data_server.infrastructure.inbound.udp.datalogger.decoder;
 
 import java.nio.ByteBuffer;
-import java.time.Instant;
 
 import com.stint.race_data_server.domain.telemetry.sample.LiveTimingSample;
 import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
@@ -26,7 +25,7 @@ public class LiveTimingDecoder implements PayloadDecoder{
         
         return new LiveTimingSample(
             header.getDeviceId(),
-            Instant.now(),
+            header.getTimestampAsInstant(),
             position,
             currentLapMs,
             delta,

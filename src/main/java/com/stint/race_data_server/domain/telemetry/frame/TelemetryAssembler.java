@@ -28,15 +28,17 @@ public class TelemetryAssembler {
 
     private final ConcurrentHashMap<Integer, Telemetry> frames = new ConcurrentHashMap<>();
 
-    public Telemetry getOrCreate(int deviceId) {
+    public Telemetry getOrCreate(int deviceId, Instant timestamp) {
         return frames.computeIfAbsent(
             deviceId,
-            k -> new Telemetry(k, Instant.now()) // lambda truco c:
+            k -> new Telemetry(k, timestamp)
         ); 
     }
     public Telemetry apply(TelemetrySample sample) {
 
-        Telemetry frame = getOrCreate(sample.getDeviceId());
+        Telemetry frame = getOrCreate(sample.getDeviceId(), sample.getTimestamp());
+        // Actualizar timestamp del frame con el del sample (cada sample trae su propio timestamp)
+        frame.setTimestamp(sample.getTimestamp());
 
         if (sample instanceof InfoSample s) {
             frame.setInfo(Info.from(s));
