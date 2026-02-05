@@ -21,10 +21,18 @@ public class PacketDispatcher {
         PayloadDecoder payloadDecoder = decoders.get(header.getPacketType());
 
         if (payloadDecoder == null) {
-            throw new IllegalStateException("No payload decoder for packet type " + header.getPacketType());   
+            System.err.println("No payload decoder for packet type " + header.getPacketType());
+            return null;
         }
-        return payloadDecoder.decode(buffer, header);
-
+        
+        TelemetrySample sample = payloadDecoder.decode(buffer, header);
+        
+        if (sample == null) {
+            // Decoder ya logueó el error, solo descartamos el paquete silenciosamente
+            return null;
+        }
+        
+        return sample;
     }
     
 }

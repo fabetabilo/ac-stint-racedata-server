@@ -12,31 +12,42 @@ public class LiveTimingDecoder implements PayloadDecoder{
     @Override
     public TelemetrySample decode(ByteBuffer buffer, PacketHeader header) {
         
-        int position = buffer.get() & 0xFF; // 1 byte
-        int currentLapMs = buffer.getInt();
-        float delta = buffer.getFloat();
-        int sectorIdx = buffer.get() & 0xFF;
-        int sectorTimeMs = buffer.getInt();
-        int lastLapMs = buffer.getInt();
-        int bestLapMs = buffer.getInt();
-        int lapNum = buffer.getShort() & 0xFFFF; // 2 bytes
-        boolean inPitLane = buffer.get() != 0;
-        int flag = buffer.get() & 0xFF;
-        
-        return new LiveTimingSample(
-            header.getDeviceId(),
-            header.getTimestampAsInstant(),
-            position,
-            currentLapMs,
-            delta,
-            sectorIdx,
-            sectorTimeMs,
-            lastLapMs,
-            bestLapMs,
-            lapNum,
-            inPitLane,
-            flag
-        );
+        try {
+            if (buffer.remaining() < 24) {
+                System.err.println("LIVETIMING packet too short: " + buffer.remaining() + " bytes");
+                return null;
+            }
+            
+            int position = buffer.get() & 0xFF; // 1 byte
+            int currentLapMs = buffer.getInt();
+            float delta = buffer.getFloat();
+            int sectorIdx = buffer.get() & 0xFF;
+            int sectorTimeMs = buffer.getInt();
+            int lastLapMs = buffer.getInt();
+            int bestLapMs = buffer.getInt();
+            int lapNum = buffer.getShort() & 0xFFFF; // 2 bytes
+            boolean inPitLane = buffer.get() != 0;
+            int flag = buffer.get() & 0xFF;
+            
+            return new LiveTimingSample(
+                header.getDeviceId(),
+                header.getTimestampAsInstant(),
+                position,
+                currentLapMs,
+                delta,
+                sectorIdx,
+                sectorTimeMs,
+                lastLapMs,
+                bestLapMs,
+                lapNum,
+                inPitLane,
+                flag
+            );
+            
+        } catch (Exception e) {
+            System.err.println("Error decoding LIVETIMING: " + e.getMessage());
+            return null;
+        }
     }
 
 }

@@ -36,6 +36,11 @@ public class TelemetryAssembler {
     }
     public Telemetry apply(TelemetrySample sample) {
 
+        if (sample == null) {
+            // paquete corrupto ya descartado en decoder, -> no hacer nada
+            return null;
+        }
+        
         Telemetry frame = getOrCreate(sample.getDeviceId(), sample.getTimestamp());
         // Actualizar timestamp del frame con el del sample (cada sample trae su propio timestamp)
         frame.setTimestamp(sample.getTimestamp());

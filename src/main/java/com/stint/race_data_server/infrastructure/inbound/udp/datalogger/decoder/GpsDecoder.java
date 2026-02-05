@@ -12,17 +12,28 @@ public class GpsDecoder implements PayloadDecoder {
     @Override
     public TelemetrySample decode(ByteBuffer buffer, PacketHeader header) {
         
-        float heading = buffer.getFloat();
-        float x = buffer.getFloat();
-        float z = buffer.getFloat();
-        
-        return new GpsSample(
-            header.getDeviceId(),
-            header.getTimestampAsInstant(),
-            heading,
-            x,
-            z
-        );
+        try {
+            if (buffer.remaining() < 12) {
+                System.err.println("GPS packet too short: " + buffer.remaining() + " bytes");
+                return null;
+            }
+            
+            float heading = buffer.getFloat();
+            float x = buffer.getFloat();
+            float z = buffer.getFloat();
+            
+            return new GpsSample(
+                header.getDeviceId(),
+                header.getTimestampAsInstant(),
+                heading,
+                x,
+                z
+            );
+            
+        } catch (Exception e) {
+            System.err.println("Error decoding GPS: " + e.getMessage());
+            return null;
+        }
     }
     
 }

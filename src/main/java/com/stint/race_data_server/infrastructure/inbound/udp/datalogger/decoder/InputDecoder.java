@@ -13,6 +13,11 @@ public class InputDecoder implements PayloadDecoder{
     public TelemetrySample decode(ByteBuffer buffer, PacketHeader header) {
 
         try {
+            if (buffer.remaining() < 44) {
+                System.err.println("INPUT packet too short: " + buffer.remaining() + " bytes");
+                return null;
+            }
+            
             long rpm = Integer.toUnsignedLong(buffer.getInt());
             float turbo = buffer.getFloat();
             float speedKmh = buffer.getFloat();
@@ -40,9 +45,9 @@ public class InputDecoder implements PayloadDecoder{
                 kersCharge,
                 kersInput
             );
+            
         } catch (Exception e) {
             System.err.println("Error decoding INPUT: " + e.getMessage());
-            e.printStackTrace();
             return null;
         }
     }

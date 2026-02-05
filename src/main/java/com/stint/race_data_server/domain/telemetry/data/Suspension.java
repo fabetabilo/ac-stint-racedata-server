@@ -9,11 +9,23 @@ public class Suspension {
     private final float[] wheelLoad;         // Newton
     private final float[] wheelAngularSpeed; // rad/s
 
+    private static final int WHEEL_COUNT = 4;
+
     public Suspension(float[] suspensionTravel, float[] camberRAD, float[] wheelLoad, float[] wheelAngularSpeed) {
-        this.suspensionTravel = suspensionTravel;
-        this.camberRAD = camberRAD;
-        this.wheelLoad = wheelLoad;
-        this.wheelAngularSpeed = wheelAngularSpeed;
+        this.suspensionTravel = validateArray(suspensionTravel, "suspensionTravel");
+        this.camberRAD = validateArray(camberRAD, "camberRAD");
+        this.wheelLoad = validateArray(wheelLoad, "wheelLoad");
+        this.wheelAngularSpeed = validateArray(wheelAngularSpeed, "wheelAngularSpeed");
+    }
+
+    private static float[] validateArray(float[] array, String fieldName) {
+        if (array == null) {
+            throw new IllegalArgumentException(fieldName + " cannot be null");
+        }
+        if (array.length != WHEEL_COUNT) {
+            throw new IllegalArgumentException(fieldName + " must have " + WHEEL_COUNT + " elements");
+        }
+        return array;
     }
 
     public static Suspension from(SuspensionSample sample) {

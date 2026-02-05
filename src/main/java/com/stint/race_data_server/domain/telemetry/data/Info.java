@@ -13,16 +13,28 @@ public class Info {
     private final boolean tcOn;
     private final boolean absOn;
 
+    private static final int DAMAGE_ZONES = 5;
+
     public Info(String carNumber, String driverName, String teamId, boolean inPit,
             float dist, float[] carDamage, boolean tcOn, boolean absOn) {
-        this.carNumber = carNumber;
-        this.driverName = driverName;
-        this.teamId = teamId;
+        this.carNumber = carNumber != null ? carNumber : "";
+        this.driverName = driverName != null ? driverName : "";
+        this.teamId = teamId != null ? teamId : "";
         this.inPit = inPit;
         this.dist = dist;
-        this.carDamage = carDamage;
+        this.carDamage = validateDamageArray(carDamage);
         this.tcOn = tcOn;
         this.absOn = absOn;
+    }
+
+    private static float[] validateDamageArray(float[] array) {
+        if (array == null) {
+            throw new IllegalArgumentException("carDamage cannot be null");
+        }
+        if (array.length != DAMAGE_ZONES) {
+            throw new IllegalArgumentException("carDamage must have " + DAMAGE_ZONES + " elements");
+        }
+        return array;
     }
 
     public static Info from(InfoSample s) {
