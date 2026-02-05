@@ -1,12 +1,12 @@
-package com.stint.race_data_server.infrastructure.inbound.udp.datalogger.decoder;
+package com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.decoder;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
 import com.stint.race_data_server.domain.telemetry.sample.TyreSample;
-import com.stint.race_data_server.infrastructure.inbound.udp.datalogger.PacketHeader;
-import com.stint.race_data_server.infrastructure.inbound.udp.datalogger.PayloadDecoder;
+import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PacketHeader;
+import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PayloadDecoder;
 
 public class TyreDecoder implements PayloadDecoder {
 

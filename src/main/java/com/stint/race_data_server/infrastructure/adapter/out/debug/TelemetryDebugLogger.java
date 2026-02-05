@@ -1,4 +1,4 @@
-package com.stint.race_data_server.application.service.debug;
+package com.stint.race_data_server.infrastructure.adapter.out.debug;
 
 import java.time.Instant;
 import java.util.EnumSet;
@@ -9,19 +9,22 @@ import java.util.concurrent.ConcurrentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
+import com.stint.race_data_server.application.port.out.LogTelemetry;
 import com.stint.race_data_server.domain.telemetry.frame.Telemetry;
 import com.stint.race_data_server.domain.telemetry.data.*;
 
 /**
- * TelemetryDebug = debug de unidad data logger, su objetivo es
- * verificar los paquetes y su integridad a traves de una configuracion 
+ * Debug/Logging de telemetria
+ * 
+ * TelemetryDebugLogger = debug de unidad data logger, su objetivo es
+ * verificar los paquetes y su integridad a traves de configuracion
  */
-@Service
-public class TelemetryDebug {
+@Component
+public class TelemetryDebugLogger implements LogTelemetry {
 
-    private static final Logger log = LoggerFactory.getLogger(TelemetryDebug.class);
+    private static final Logger log = LoggerFactory.getLogger(TelemetryDebugLogger.class);
 
     private final boolean enabled;
     private final long minIntervalMs;
@@ -40,7 +43,7 @@ public class TelemetryDebug {
         GPS
     }
 
-    public TelemetryDebug(
+    public TelemetryDebugLogger(
             @Value("${datalogger.debug.enabled:false}") boolean enabled,
             @Value("${datalogger.debug.rate-hz:0.5}") int rateHz,
             @Value("${datalogger.debug.fields:}") String fields
@@ -69,12 +72,13 @@ public class TelemetryDebug {
         return result;
     }
 
+    @Override
     public void debug(Telemetry frame) {
 
         if (!enabled || frame == null)
             return;
 
-        int deviceId = frame.getDeviceId(); // Device ID alude al coche al que se esta evaluando telemetria
+        int deviceId = frame.getDeviceId(); // Device ID alude al coche al que se está evaluando telemetría
         Instant frameTimestamp = frame.getTimestamp(); // timestamp de captura desde data logger
 
         Instant last = lastPrint.get(deviceId);

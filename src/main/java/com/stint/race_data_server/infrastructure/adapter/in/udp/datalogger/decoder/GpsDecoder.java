@@ -1,11 +1,11 @@
-package com.stint.race_data_server.infrastructure.inbound.udp.datalogger.decoder;
+package com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.decoder;
 
 import java.nio.ByteBuffer;
 
 import com.stint.race_data_server.domain.telemetry.sample.GpsSample;
 import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
-import com.stint.race_data_server.infrastructure.inbound.udp.datalogger.PacketHeader;
-import com.stint.race_data_server.infrastructure.inbound.udp.datalogger.PayloadDecoder;
+import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PacketHeader;
+import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PayloadDecoder;
 
 public class GpsDecoder implements PayloadDecoder {
 

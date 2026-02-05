@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.stint.race_data_server.application.service.TelemetryService;
-import com.stint.race_data_server.infrastructure.inbound.udp.datalogger.UdpListener;
+import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.UdpListener;
 
 import jakarta.annotation.PostConstruct;
 

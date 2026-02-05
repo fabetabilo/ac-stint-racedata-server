@@ -1,4 +1,4 @@
-package com.stint.race_data_server.infrastructure.inbound.udp.datalogger;
+package com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger;
 
 /**
  * Telemetry Packet Type.

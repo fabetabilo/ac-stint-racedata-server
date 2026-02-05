@@ -3,8 +3,6 @@ package com.stint.race_data_server.domain.telemetry.frame;
 import java.time.Instant;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.springframework.stereotype.Component;
-
 import com.stint.race_data_server.domain.telemetry.data.Aerodynamic;
 import com.stint.race_data_server.domain.telemetry.data.Gps;
 import com.stint.race_data_server.domain.telemetry.data.Imu;
@@ -23,7 +21,6 @@ import com.stint.race_data_server.domain.telemetry.sample.SuspensionSample;
 import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
 import com.stint.race_data_server.domain.telemetry.sample.TyreSample;
 
-@Component
 public class TelemetryAssembler {
 
     private final ConcurrentHashMap<Integer, Telemetry> frames = new ConcurrentHashMap<>();
