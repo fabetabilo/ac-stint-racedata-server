@@ -1,8 +1,6 @@
 package com.stint.race_data_server.domain.telemetry.data;
 
-import com.stint.race_data_server.domain.telemetry.sample.GpsSample;
-
-public class Gps {
+public final class Gps implements TelemetryComponent {
     
     private final float heading;
     private final float x;
@@ -12,14 +10,6 @@ public class Gps {
         this.heading = heading;
         this.x = x;
         this.z = z;
-    }
-
-    public static Gps from(GpsSample s) {
-        return new Gps(
-            s.getHeading(),
-            s.getX(),
-            s.getZ()
-        );
     }
 
     public float getHeading() {

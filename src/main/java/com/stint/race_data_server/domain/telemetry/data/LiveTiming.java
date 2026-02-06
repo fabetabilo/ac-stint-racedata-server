@@ -1,8 +1,6 @@
 package com.stint.race_data_server.domain.telemetry.data;
 
-import com.stint.race_data_server.domain.telemetry.sample.LiveTimingSample;
-
-public class LiveTiming {
+public final class LiveTiming implements TelemetryComponent {
     
     private final int position;
     private final int currentLapMs;
@@ -27,21 +25,6 @@ public class LiveTiming {
         this.lapCount = lapCount;
         this.inPitLane = inPitLane;
         this.flag = flag;
-    }
-
-    public static LiveTiming from(LiveTimingSample s) {
-        return new LiveTiming(
-            s.getPosition(),
-            s.getCurrentLapMs(),
-            s.getDelta(),
-            s.getSectorIdx(),
-            s.getSectorTimeMs(),
-            s.getLastLapMs(),
-            s.getBestLapMs(),
-            s.getLapCount(),
-            s.isInPitLane(),
-            s.getFlag()
-        );
     }
 
     public int getLapCount() {

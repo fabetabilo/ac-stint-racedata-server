@@ -3,19 +3,23 @@ package com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.deco
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
-import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
-import com.stint.race_data_server.domain.telemetry.sample.TyreSample;
-import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PacketHeader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.stint.race_data_server.domain.telemetry.data.TelemetryComponent;
+import com.stint.race_data_server.domain.telemetry.data.Tyre;
 import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PayloadDecoder;
 
 public class TyreDecoder implements PayloadDecoder {
 
+    private static final Logger log = LoggerFactory.getLogger(TyreDecoder.class);
+
     @Override
-    public TelemetrySample decode(ByteBuffer buffer, PacketHeader header) {
+    public TelemetryComponent decode(ByteBuffer buffer) {
         
         try {
             if (buffer.remaining() < 90) {
-                System.err.println("TYRE packet too short: " + buffer.remaining() + " bytes");
+                log.warn("TYRE packet too short: {} bytes", buffer.remaining());
                 return null;
             }
             
@@ -50,18 +54,10 @@ public class TyreDecoder implements PayloadDecoder {
                 slipRatios[i] = buffer.getFloat();
             }
 
-            return new TyreSample(
-                header.getDeviceId(),
-                header.getTimestampAsInstant(),
-                compound,
-                coreTemps,
-                pressures,
-                dirtLevels,
-                wearLevels,
-                slipRatios
-            );
+            return new Tyre(compound, coreTemps, pressures, dirtLevels, wearLevels, slipRatios);
+
         } catch (Exception e) {
-            System.err.println("Error decoding TYRE: " + e.getMessage());
+            log.error("Error decoding TYRE: {}", e.getMessage());
             return null;
         }
     }

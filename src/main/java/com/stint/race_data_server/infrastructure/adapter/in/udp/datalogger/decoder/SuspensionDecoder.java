@@ -2,19 +2,23 @@ package com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.deco
 
 import java.nio.ByteBuffer;
 
-import com.stint.race_data_server.domain.telemetry.sample.SuspensionSample;
-import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
-import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PacketHeader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.stint.race_data_server.domain.telemetry.data.Suspension;
+import com.stint.race_data_server.domain.telemetry.data.TelemetryComponent;
 import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PayloadDecoder;
 
 public class SuspensionDecoder implements PayloadDecoder {
 
+    private static final Logger log = LoggerFactory.getLogger(SuspensionDecoder.class);
+
     @Override
-    public TelemetrySample decode(ByteBuffer buffer, PacketHeader header) {
+    public TelemetryComponent decode(ByteBuffer buffer) {
     
         try {
             if (buffer.remaining() < 64) {
-                System.err.println("SUSPENSION packet too short: " + buffer.remaining() + " bytes");
+                log.warn("SUSPENSION packet too short: {} bytes", buffer.remaining());
                 return null;
             }
             
@@ -40,17 +44,10 @@ public class SuspensionDecoder implements PayloadDecoder {
                 wheelAngularSpeed[i] = buffer.getFloat();
             }
             
-            return new SuspensionSample(
-                header.getDeviceId(),
-                header.getTimestampAsInstant(),
-                suspensionTravel,
-                camberRAD,
-                wheelLoad,
-                wheelAngularSpeed
-            );
+            return new Suspension(suspensionTravel, camberRAD, wheelLoad, wheelAngularSpeed);
 
         } catch (Exception e) {
-            System.err.println("Error decoding SUSPENSION: " + e.getMessage());
+            log.error("Error decoding SUSPENSION: {}", e.getMessage());
             return null;
         }
     }

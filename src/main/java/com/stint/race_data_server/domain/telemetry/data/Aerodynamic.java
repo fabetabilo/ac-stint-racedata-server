@@ -1,8 +1,6 @@
 package com.stint.race_data_server.domain.telemetry.data;
 
-import com.stint.race_data_server.domain.telemetry.sample.AerodynamicSample;
-
-public class Aerodynamic {
+public final class Aerodynamic implements TelemetryComponent {
 
     private final float drag;
     private final float downforce;
@@ -21,18 +19,6 @@ public class Aerodynamic {
         this.cd = cd;
         this.rideHeightFront = rideHeightFront;
         this.rideHeightRear = rideHeightRear;
-    }
-
-    public static Aerodynamic from(AerodynamicSample s) {
-        return new Aerodynamic(
-            s.getDrag(),
-            s.getDownforce(),
-            s.getClFront(),
-            s.getClRear(),
-            s.getCd(),
-            s.getRideHeightFront(),
-            s.getRideHeightRear()
-        );
     }
 
     public float getDownforce() {

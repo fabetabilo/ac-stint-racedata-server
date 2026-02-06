@@ -2,19 +2,23 @@ package com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.deco
 
 import java.nio.ByteBuffer;
 
-import com.stint.race_data_server.domain.telemetry.sample.LiveTimingSample;
-import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
-import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PacketHeader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.stint.race_data_server.domain.telemetry.data.LiveTiming;
+import com.stint.race_data_server.domain.telemetry.data.TelemetryComponent;
 import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PayloadDecoder;
 
-public class LiveTimingDecoder implements PayloadDecoder{
+public class LiveTimingDecoder implements PayloadDecoder {
+
+    private static final Logger log = LoggerFactory.getLogger(LiveTimingDecoder.class);
     
     @Override
-    public TelemetrySample decode(ByteBuffer buffer, PacketHeader header) {
+    public TelemetryComponent decode(ByteBuffer buffer) {
         
         try {
             if (buffer.remaining() < 24) {
-                System.err.println("LIVETIMING packet too short: " + buffer.remaining() + " bytes");
+                log.warn("LIVETIMING packet too short: {} bytes", buffer.remaining());
                 return null;
             }
             
@@ -29,23 +33,11 @@ public class LiveTimingDecoder implements PayloadDecoder{
             boolean inPitLane = buffer.get() != 0;
             int flag = buffer.get() & 0xFF;
             
-            return new LiveTimingSample(
-                header.getDeviceId(),
-                header.getTimestampAsInstant(),
-                position,
-                currentLapMs,
-                delta,
-                sectorIdx,
-                sectorTimeMs,
-                lastLapMs,
-                bestLapMs,
-                lapNum,
-                inPitLane,
-                flag
-            );
+            return new LiveTiming(position, currentLapMs, delta, sectorIdx, 
+                sectorTimeMs, lastLapMs, bestLapMs, lapNum, inPitLane, flag);
             
         } catch (Exception e) {
-            System.err.println("Error decoding LIVETIMING: " + e.getMessage());
+            log.error("Error decoding LIVETIMING: {}", e.getMessage());
             return null;
         }
     }

@@ -2,19 +2,23 @@ package com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.deco
 
 import java.nio.ByteBuffer;
 
-import com.stint.race_data_server.domain.telemetry.sample.ImuSample;
-import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
-import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PacketHeader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.stint.race_data_server.domain.telemetry.data.Imu;
+import com.stint.race_data_server.domain.telemetry.data.TelemetryComponent;
 import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PayloadDecoder;
 
-public class ImuDecoder implements PayloadDecoder{
+public class ImuDecoder implements PayloadDecoder {
+
+    private static final Logger log = LoggerFactory.getLogger(ImuDecoder.class);
 
     @Override
-    public TelemetrySample decode(ByteBuffer buffer, PacketHeader header) {
+    public TelemetryComponent decode(ByteBuffer buffer) {
         
         try {
             if (buffer.remaining() < 28) {
-                System.err.println("IMU packet too short: " + buffer.remaining() + " bytes");
+                log.warn("IMU packet too short: {} bytes", buffer.remaining());
                 return null;
             }
             
@@ -27,20 +31,10 @@ public class ImuDecoder implements PayloadDecoder{
             float yawRate = buffer.getFloat();
             float sideSlip = buffer.getFloat();
 
-            return new ImuSample(
-                header.getDeviceId(),
-                header.getTimestampAsInstant(),
-                accX,
-                accY,
-                accZ,
-                roll,
-                pitch,
-                yawRate,
-                sideSlip
-            );
+            return new Imu(accX, accY, accZ, roll, pitch, yawRate, sideSlip);
             
         } catch (Exception e) {
-            System.err.println("Error decoding IMU: " + e.getMessage());
+            log.error("Error decoding IMU: {}", e.getMessage());
             return null;
         }
     }

@@ -1,8 +1,6 @@
 package com.stint.race_data_server.domain.telemetry.data;
 
-import com.stint.race_data_server.domain.telemetry.sample.SuspensionSample;
-
-public class Suspension {
+public final class Suspension implements TelemetryComponent {
     // 4 ruedas: FL, FR, RL, RR 
     private final float[] suspensionTravel;  // metros
     private final float[] camberRAD;         // radianes
@@ -26,15 +24,6 @@ public class Suspension {
             throw new IllegalArgumentException(fieldName + " must have " + WHEEL_COUNT + " elements");
         }
         return array;
-    }
-
-    public static Suspension from(SuspensionSample sample) {
-        return new Suspension(
-            sample.getSuspensionTravel(),
-            sample.getCamberRAD(),
-            sample.getWheelLoad(),
-            sample.getWheelAngularSpeed()
-        );
     }
 
     public float[] getSuspensionTravel() {

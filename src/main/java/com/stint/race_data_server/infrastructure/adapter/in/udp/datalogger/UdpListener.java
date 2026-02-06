@@ -3,14 +3,18 @@ package com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.stint.race_data_server.application.port.in.ReceiveTelemetry;
-import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
 
 /** Adaptador,
- * escucha, recibe paquetes UDP raw en bytes[] en un puerto especifico, y los procesa como samples de telemetria {@link TelemetrySample}
- * transformandolos al lenguaje de dominio.
+ * escucha, recibe paquetes UDP raw en bytes[] en un puerto especifico, los decodifica
+ * y los entrega al puerto de entrada como objetos de dominio.
  */
 public class UdpListener implements Runnable{
+
+    private static final Logger log = LoggerFactory.getLogger(UdpListener.class);
 
     private final int port;
     private final int bufferSize;
@@ -40,17 +44,21 @@ public class UdpListener implements Runnable{
                 socket.receive(packet);
 
                 try{
-                    TelemetrySample sample = decoder.decode(packet.getData(), packet.getLength());
+                    DecodedData decoded = decoder.decode(packet.getData(), packet.getLength());
 
-                    if (sample != null) {
-                        receiveTelemetry.handle(sample);
+                    if (decoded != null) {
+                        receiveTelemetry.handle(
+                            decoded.deviceId(), 
+                            decoded.timestamp(), 
+                            decoded.data()
+                        );
                     }
                 } catch (Exception e) {
-                    System.err.println("Error decoding packet: " + e.getMessage());
+                    log.error("Error processing packet: {}", e.getMessage());
                 } 
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("UDP listener fatal error on port {}", port, e);
         }
     }
 }

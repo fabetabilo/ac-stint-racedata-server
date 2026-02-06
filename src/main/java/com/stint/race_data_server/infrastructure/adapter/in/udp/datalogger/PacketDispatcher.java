@@ -3,12 +3,17 @@ package com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger;
 import java.nio.ByteBuffer;
 import java.util.Map;
 
-import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.stint.race_data_server.domain.telemetry.data.TelemetryComponent;
 
 /**
- * Enrutador de packets a decoders especificos segun packetId
+ * Enrutador de packets a decoders especificos segun {@link PacketType}
  */
 public class PacketDispatcher {
+    
+    private static final Logger log = LoggerFactory.getLogger(PacketDispatcher.class);
 
     private final Map<PacketType, PayloadDecoder> decoders;
 
@@ -16,23 +21,16 @@ public class PacketDispatcher {
         this.decoders = decoders;
     }
 
-    public TelemetrySample dispatch(ByteBuffer buffer, PacketHeader header) {
+    public TelemetryComponent dispatch(ByteBuffer buffer, PacketType packetType) {
 
-        PayloadDecoder payloadDecoder = decoders.get(header.getPacketType());
+        PayloadDecoder payloadDecoder = decoders.get(packetType);
 
         if (payloadDecoder == null) {
-            System.err.println("No payload decoder for packet type " + header.getPacketType());
+            log.warn("No payload decoder for packet type {}", packetType);
             return null;
         }
         
-        TelemetrySample sample = payloadDecoder.decode(buffer, header);
-        
-        if (sample == null) {
-            // Decoder ya logueó el error, solo descartamos el paquete silenciosamente
-            return null;
-        }
-        
-        return sample;
+        return payloadDecoder.decode(buffer);
     }
     
 }

@@ -2,19 +2,23 @@ package com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.deco
 
 import java.nio.ByteBuffer;
 
-import com.stint.race_data_server.domain.telemetry.sample.InputSample;
-import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
-import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PacketHeader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.stint.race_data_server.domain.telemetry.data.Input;
+import com.stint.race_data_server.domain.telemetry.data.TelemetryComponent;
 import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PayloadDecoder;
 
-public class InputDecoder implements PayloadDecoder{
+public class InputDecoder implements PayloadDecoder {
+
+    private static final Logger log = LoggerFactory.getLogger(InputDecoder.class);
 
     @Override
-    public TelemetrySample decode(ByteBuffer buffer, PacketHeader header) {
+    public TelemetryComponent decode(ByteBuffer buffer) {
 
         try {
             if (buffer.remaining() < 44) {
-                System.err.println("INPUT packet too short: " + buffer.remaining() + " bytes");
+                log.warn("INPUT packet too short: {} bytes", buffer.remaining());
                 return null;
             }
             
@@ -30,24 +34,11 @@ public class InputDecoder implements PayloadDecoder{
             float kersCharge = buffer.getFloat();
             float kersInput = buffer.getFloat();
             
-            return new InputSample(
-                header.getDeviceId(),
-                header.getTimestampAsInstant(),
-                rpm,
-                turbo,
-                speedKmh,
-                gear,
-                throttle,
-                brake,
-                clutch,
-                steer,
-                fuel,
-                kersCharge,
-                kersInput
-            );
+            return new Input(rpm, turbo, speedKmh, gear, throttle, brake, 
+                clutch, steer, fuel, kersCharge, kersInput);
             
         } catch (Exception e) {
-            System.err.println("Error decoding INPUT: " + e.getMessage());
+            log.error("Error decoding INPUT: {}", e.getMessage());
             return null;
         }
     }

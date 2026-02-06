@@ -2,19 +2,23 @@ package com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.deco
 
 import java.nio.ByteBuffer;
 
-import com.stint.race_data_server.domain.telemetry.sample.AerodynamicSample;
-import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
-import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PacketHeader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.stint.race_data_server.domain.telemetry.data.Aerodynamic;
+import com.stint.race_data_server.domain.telemetry.data.TelemetryComponent;
 import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PayloadDecoder;
 
 public class AerodynamicDecoder implements PayloadDecoder {
 
+    private static final Logger log = LoggerFactory.getLogger(AerodynamicDecoder.class);
+
     @Override
-    public TelemetrySample decode(ByteBuffer buffer, PacketHeader header) {
+    public TelemetryComponent decode(ByteBuffer buffer) {
         
         try {
             if (buffer.remaining() < 28) {
-                System.err.println("AERODYNAMIC packet too short: " + buffer.remaining() + " bytes");
+                log.warn("AERODYNAMIC packet too short: {} bytes", buffer.remaining());
                 return null;
             }
             
@@ -26,20 +30,11 @@ public class AerodynamicDecoder implements PayloadDecoder {
             float rideHeightFront = buffer.getFloat();
             float rideHeightRear = buffer.getFloat();
             
-            return new AerodynamicSample (
-                header.getDeviceId(),
-                header.getTimestampAsInstant(),
-                drag,
-                downforce,
-                clFront,
-                clRear,
-                cd,
-                rideHeightFront,
-                rideHeightRear
-            );
+            return new Aerodynamic(drag, downforce, clFront, clRear, cd, 
+                rideHeightFront, rideHeightRear);
             
         } catch (Exception e) {
-            System.err.println("Error decoding AERODYNAMIC: " + e.getMessage());
+            log.error("Error decoding AERODYNAMIC: {}", e.getMessage());
             return null;
         }
     }

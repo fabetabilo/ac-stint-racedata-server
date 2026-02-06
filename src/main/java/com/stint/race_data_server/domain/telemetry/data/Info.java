@@ -1,8 +1,6 @@
 package com.stint.race_data_server.domain.telemetry.data;
 
-import com.stint.race_data_server.domain.telemetry.sample.InfoSample;
-
-public class Info {
+public final class Info implements TelemetryComponent {
     
     private final String carNumber;
     private final String driverName;
@@ -35,19 +33,6 @@ public class Info {
             throw new IllegalArgumentException("carDamage must have " + DAMAGE_ZONES + " elements");
         }
         return array;
-    }
-
-    public static Info from(InfoSample s) {
-        return new Info(
-            s.getCarNumber(),
-            s.getDriverName(),
-            s.getTeamId(),
-            s.isInPit(),
-            s.getDist(),
-            s.getCarDamage(),
-            s.isTcOn(),
-            s.isAbsOn()
-        );
     }
 
     public String getCarNumber() {

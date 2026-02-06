@@ -2,19 +2,23 @@ package com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.deco
 
 import java.nio.ByteBuffer;
 
-import com.stint.race_data_server.domain.telemetry.sample.GpsSample;
-import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
-import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PacketHeader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.stint.race_data_server.domain.telemetry.data.Gps;
+import com.stint.race_data_server.domain.telemetry.data.TelemetryComponent;
 import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PayloadDecoder;
 
 public class GpsDecoder implements PayloadDecoder {
 
+    private static final Logger log = LoggerFactory.getLogger(GpsDecoder.class);
+
     @Override
-    public TelemetrySample decode(ByteBuffer buffer, PacketHeader header) {
+    public TelemetryComponent decode(ByteBuffer buffer) {
         
         try {
             if (buffer.remaining() < 12) {
-                System.err.println("GPS packet too short: " + buffer.remaining() + " bytes");
+                log.warn("GPS packet too short: {} bytes", buffer.remaining());
                 return null;
             }
             
@@ -22,16 +26,10 @@ public class GpsDecoder implements PayloadDecoder {
             float x = buffer.getFloat();
             float z = buffer.getFloat();
             
-            return new GpsSample(
-                header.getDeviceId(),
-                header.getTimestampAsInstant(),
-                heading,
-                x,
-                z
-            );
+            return new Gps(heading, x, z);
             
         } catch (Exception e) {
-            System.err.println("Error decoding GPS: " + e.getMessage());
+            log.error("Error decoding GPS: {}", e.getMessage());
             return null;
         }
     }

@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.stint.race_data_server.application.service.TelemetryService;
+import com.stint.race_data_server.application.port.in.ReceiveTelemetry;
 import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.UdpListener;
 
 import jakarta.annotation.PostConstruct;
@@ -18,16 +18,16 @@ public class DataloggerUdpStarter {
 
     private static final Logger log = LoggerFactory.getLogger(DataloggerUdpStarter.class);
 
-    private final TelemetryService telemetryService;
+    private final ReceiveTelemetry receiveTelemetry;
     private final int port;
     private final int bufferSize;
 
     public DataloggerUdpStarter(
-        TelemetryService telemetryService,
+        ReceiveTelemetry receiveTelemetry,
         @Value("${udp.datalogger.port:}") int port,
         @Value("${udp.datalogger.buffer-size:}") int bufferSize
     ) {
-        this.telemetryService = telemetryService;
+        this.receiveTelemetry = receiveTelemetry;
         this.port = port;
         this.bufferSize = bufferSize;
     }
@@ -35,7 +35,7 @@ public class DataloggerUdpStarter {
     @PostConstruct
     public void start() {
 
-        UdpListener listener = DataloggerUdpConfig.dataloggerListener(port, bufferSize, telemetryService);
+        UdpListener listener = DataloggerUdpConfig.dataloggerListener(port, bufferSize, receiveTelemetry);
         
         Thread t = new Thread(listener, "datalogger-udp-listener");
         t.setDaemon(true);

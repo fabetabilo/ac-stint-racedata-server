@@ -10,17 +10,13 @@ import com.stint.race_data_server.domain.telemetry.data.Info;
 import com.stint.race_data_server.domain.telemetry.data.Input;
 import com.stint.race_data_server.domain.telemetry.data.LiveTiming;
 import com.stint.race_data_server.domain.telemetry.data.Suspension;
+import com.stint.race_data_server.domain.telemetry.data.TelemetryComponent;
 import com.stint.race_data_server.domain.telemetry.data.Tyre;
-import com.stint.race_data_server.domain.telemetry.sample.AerodynamicSample;
-import com.stint.race_data_server.domain.telemetry.sample.GpsSample;
-import com.stint.race_data_server.domain.telemetry.sample.ImuSample;
-import com.stint.race_data_server.domain.telemetry.sample.InfoSample;
-import com.stint.race_data_server.domain.telemetry.sample.InputSample;
-import com.stint.race_data_server.domain.telemetry.sample.LiveTimingSample;
-import com.stint.race_data_server.domain.telemetry.sample.SuspensionSample;
-import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
-import com.stint.race_data_server.domain.telemetry.sample.TyreSample;
 
+/**
+ * Ensambla componentes de telemetria en frames por dispositivo.
+ * mantiene un frame activo por deviceId, actualizandolo con cada componente recibido.
+ */
 public class TelemetryAssembler {
 
     private final ConcurrentHashMap<Integer, Telemetry> frames = new ConcurrentHashMap<>();
@@ -31,40 +27,24 @@ public class TelemetryAssembler {
             k -> new Telemetry(k, timestamp)
         ); 
     }
-    public Telemetry apply(TelemetrySample sample) {
 
-        if (sample == null) {
-            // paquete corrupto ya descartado en decoder, -> no hacer nada
-            return null;
-        }
+    /**
+     * Aplica componente de telemetria al frame del dispositivo correspondiente.
+     */
+    public Telemetry apply(int deviceId, Instant timestamp, TelemetryComponent component) {
         
-        Telemetry frame = getOrCreate(sample.getDeviceId(), sample.getTimestamp());
-        // Actualizar timestamp del frame con el del sample (cada sample trae su propio timestamp)
-        frame.setTimestamp(sample.getTimestamp());
-
-        if (sample instanceof InfoSample s) {
-            frame.setInfo(Info.from(s));
-        }
-        else if (sample instanceof InputSample s) {
-            frame.setInput(Input.from(s));
-        }
-        else if (sample instanceof ImuSample s) {
-            frame.setImu(Imu.from(s));
-        }
-        else if (sample instanceof SuspensionSample s) {
-            frame.setSusp(Suspension.from(s));
-        }
-        else if (sample instanceof LiveTimingSample s) {
-            frame.setLiveTiming(LiveTiming.from(s));
-        }
-        else if (sample instanceof TyreSample s) {
-            frame.setTyre(Tyre.from(s));
-        }
-        else if (sample instanceof AerodynamicSample s) {
-            frame.setAero(Aerodynamic.from(s));
-        }
-        else if (sample instanceof GpsSample s) {
-            frame.setGpsRadar(Gps.from(s));
+        Telemetry frame = getOrCreate(deviceId, timestamp);
+        frame.setTimestamp(timestamp);
+        // switch sobre sealed interface, sin default necesario
+        switch (component) {
+            case Info info           -> frame.setInfo(info);
+            case Input input         -> frame.setInput(input);
+            case Imu imu             -> frame.setImu(imu);
+            case Suspension susp     -> frame.setSusp(susp);
+            case LiveTiming lt       -> frame.setLiveTiming(lt);
+            case Tyre tyre           -> frame.setTyre(tyre);
+            case Aerodynamic aero    -> frame.setAero(aero);
+            case Gps gps             -> frame.setGpsRadar(gps);
         }
 
         return frame;

@@ -1,8 +1,6 @@
 package com.stint.race_data_server.domain.telemetry.data;
 
-import com.stint.race_data_server.domain.telemetry.sample.InputSample;
-
-public class Input {
+public final class Input implements TelemetryComponent {
     
     private final long rpm;
     private final float turbo;
@@ -29,22 +27,6 @@ public class Input {
         this.fuel = fuel;
         this.kersCharge = kersCharge;
         this.kersInput = kersInput;
-    }
-
-    public static Input from(InputSample s) {
-        return new Input(
-            s.getRpm(),
-            s.getTurbo(),
-            s.getSpeedKmh(),
-            s.getGear(),
-            s.getThrottle(),
-            s.getBrake(),
-            s.getClutch(),
-            s.getSteer(),
-            s.getFuel(),
-            s.getKersCharge(),
-            s.getKersInput()
-        );
     }
 
     public long getRpm() {

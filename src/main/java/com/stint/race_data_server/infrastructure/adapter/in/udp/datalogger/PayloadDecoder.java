@@ -2,22 +2,19 @@ package com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger;
 
 import java.nio.ByteBuffer;
 
-import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
+import com.stint.race_data_server.domain.telemetry.data.TelemetryComponent;
 
 /**
- * Interface para orquestar "sub-decoders"
+ * Interface para sub-decoders de payload.
+ * Cada implementacion extrae datos binarios del buffer y produce
+ * directamente un objeto de dominio {@link TelemetryComponent}.
  */
 public interface PayloadDecoder {
     
     /**
-     * Metodo que extrae y transforma los datos raw del buffer en un objeto
-     * {@link TelemetrySample} estructurado, utilizando informacion del header del packet
-     * para determinar el tipo y formato de los datos
-     * 
-     * @param buffer buffer binario que contiene los datos de telemetria a decodificar
-     * @param header {@link PacketHeader} del packet
-     * @return instancia {@link TelemetrySample} con datos decodificados
+     * Decodifica el payload binario en un componente de telemetria,
+     * no recibe header: los metadatos deviceId y timestamp se gestionan en capas superiores
      */
-    TelemetrySample decode(ByteBuffer buffer, PacketHeader header);
+    TelemetryComponent decode(ByteBuffer buffer);
     
 }

@@ -3,19 +3,23 @@ package com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.deco
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
-import com.stint.race_data_server.domain.telemetry.sample.InfoSample;
-import com.stint.race_data_server.domain.telemetry.sample.TelemetrySample;
-import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PacketHeader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.stint.race_data_server.domain.telemetry.data.Info;
+import com.stint.race_data_server.domain.telemetry.data.TelemetryComponent;
 import com.stint.race_data_server.infrastructure.adapter.in.udp.datalogger.PayloadDecoder;
 
 public class InfoDecoder implements PayloadDecoder {
+
+    private static final Logger log = LoggerFactory.getLogger(InfoDecoder.class);
     
     @Override
-    public TelemetrySample decode(ByteBuffer buffer, PacketHeader header) {
+    public TelemetryComponent decode(ByteBuffer buffer) {
 
         try {
             if (buffer.remaining() < 85) {
-                System.err.println("INFO packet too short: " + buffer.remaining() + " bytes");
+                log.warn("INFO packet too short: {} bytes", buffer.remaining());
                 return null;
             }
             
@@ -44,21 +48,10 @@ public class InfoDecoder implements PayloadDecoder {
             
             boolean absOn = buffer.get() != 0;
 
-            return new InfoSample(
-                header.getDeviceId(),
-                header.getTimestampAsInstant(),
-                carNumber,
-                driverName,
-                teamId,
-                inPit,
-                dist,
-                carDamage,
-                tcOn,
-                absOn
-            );
+            return new Info(carNumber, driverName, teamId, inPit, dist, carDamage, tcOn, absOn);
             
         } catch (Exception e) {
-            System.err.println("Error decoding INFO: " + e.getMessage());
+            log.error("Error decoding INFO: {}", e.getMessage());
             return null;
         }
     }

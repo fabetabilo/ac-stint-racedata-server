@@ -1,8 +1,6 @@
 package com.stint.race_data_server.domain.telemetry.data;
 
-import com.stint.race_data_server.domain.telemetry.sample.TyreSample;
-
-public class Tyre {
+public final class Tyre implements TelemetryComponent {
     
     private final String compound;
     private final float[] coreTemps; // temporal!: separar datos por FL, FR, RL, RR en futuro
@@ -33,17 +31,6 @@ public class Tyre {
         return array;
     }
 
-    public static Tyre from(TyreSample s) {
-        return new Tyre(
-            s.getCompound(),
-            s.getCoreTemps(),
-            s.getPressures(),
-            s.getDirtLevels(),
-            s.getWearLevels(),
-            s.getSlipRatios()
-        );
-    }
-    
     public float[] getCoreTemps() {
         return coreTemps;
     }

@@ -1,8 +1,6 @@
 package com.stint.race_data_server.domain.telemetry.data;
 
-import com.stint.race_data_server.domain.telemetry.sample.ImuSample;
-
-public class Imu {
+public final class Imu implements TelemetryComponent {
     
     private final float accX;
     private final float accY;
@@ -20,18 +18,6 @@ public class Imu {
         this.pitch = pitch;
         this.yawRate = yawRate;
         this.sideSlip = sideSlip;
-    }
-
-    public static Imu from(ImuSample sample) {
-        return new Imu(
-            sample.getAccX(),
-            sample.getAccY(),
-            sample.getAccZ(),
-            sample.getRoll(),
-            sample.getPitch(),
-            sample.getYawRate(),
-            sample.getSideSlip()
-        );
     }
 
     public float getAccX() {
