@@ -1,0 +1,18 @@
+{
+    "id": "gp",
+    "name": "Grand Prix Circuit",
+    "variant": "GP",
+    "length": 3908,
+    "width": 11,
+    "pitboxes": 24,
+    "mapImagePath": "brands_hatch/gp/track-1.png",
+    "renderParameters": {
+        "width": 856.122,
+        "height": 982.443,
+        "margin": 20,
+        "scaleFactor": 1,
+        "xOffset": 436.964,
+        "zOffset": 469.659,
+        "drawingSize": 10
+    }
+}

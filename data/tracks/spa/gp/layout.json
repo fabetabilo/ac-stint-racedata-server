@@ -1,0 +1,18 @@
+{
+    "id": "gp",
+    "name": "GP Circuit",
+    "variant": "GP",
+    "length": 7004,
+    "width": 15,
+    "pitboxes": 24,
+    "mapImagePath": "spa/gp/track-1.png",
+    "renderParameters": {
+        "width": 1004.83,
+        "height": 1593.82,
+        "margin": 20,
+        "scaleFactor": 1.3,
+        "xOffset": 664.529,
+        "zOffset": 982.854,
+        "drawingSize": 10
+    }
+}

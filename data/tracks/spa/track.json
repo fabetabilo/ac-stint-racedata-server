@@ -1,0 +1,13 @@
+{
+    "id": "spa",
+    "name": "Spa-Francorchamps",
+    "country": "Belgium",
+    "city": "Francorchamps",
+    "layouts": [
+        {
+            "id": 1,
+            "variant": "GP",
+            "path": "gp"
+        }
+    ]
+}

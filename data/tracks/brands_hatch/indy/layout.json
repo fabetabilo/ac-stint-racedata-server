@@ -1,0 +1,18 @@
+{
+    "id": "indy",
+    "name": "Indy Circuit",
+    "variant": "Indy",
+    "length": 1929,
+    "width": 11,
+    "pitboxes": 24,
+    "mapImagePath": "brands_hatch/indy/track-1.png",
+    "renderParameters": {
+        "width": 621.492,
+        "height": 428.788,
+        "margin": 20,
+        "scaleFactor": 1,
+        "xOffset": 437.541,
+        "zOffset": 468.741,
+        "drawingSize": 10
+    }
+}

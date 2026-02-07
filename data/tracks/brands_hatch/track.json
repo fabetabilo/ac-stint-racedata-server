@@ -1,0 +1,18 @@
+{
+    "id": "brands_hatch",
+    "name": "Brands Hatch",
+    "country": "United Kingdom",
+    "city": "West Kingsdown",
+    "layouts": [
+        {
+            "id": 1,
+            "variant": "GP",
+            "path": "gp"
+        },
+        {
+            "id": 2,
+            "variant": "Indy",
+            "path": "indy"
+        }
+    ]
+}
